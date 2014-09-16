@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game of Life</title>
+<!--jQuery-->
+</head>
+<body>
+    <canvas id="cnv" width="400" height="400"></canvas>
+
+
+        <script type="text/javascript">
+
+function Cell(x, y){
+    this.x = x;
+    this.y = y;
+    this.neighbors = 0;
+    this.live = 0;
+}
+
+function Grid(size, canvas){
+    this.size = size;
+    this.canvas = canvas;
+    this.grid = null;
+
+    Grid.prototype.initializeGrid = function(){
+        //this.grid = create2dArray(this.size, this.size);
+        this.grid = new Array(this.size);
+
+        for (var i = 0; i < this.size; i++){
+            this.grid[i] = new Array(this.size);
+        }
+
+        for (var i = 0; i < this.size; i++){
+            for (var j = 0; j < this.size; j++){
+                this.grid[i][j] = new Cell(i, j);
+            }
+        }
+    }
+
+Grid.prototype.startGame = function(){
+    var g = this;
+    setInterval(function() {
+        g.getAllNeighbors();
+        g.updateCells();
+    }, 500)
+    /*this.getAllNeighbors();
+    this.updateCells();
+    console.log(this.grid);*/
+}
+
+Grid.prototype.createLiveCell = function(x, y){
+    this.grid[x][y].live = 1;
+}
+
+Grid.prototype.pulsar = function(){
+        // pulsar pattern
+        this.createLiveCell(4,2);
+        this.createLiveCell(5,2);
+        this.createLiveCell(6,2);
+        this.createLiveCell(10,2);
+        this.createLiveCell(11,2);
+        this.createLiveCell(12,2);
+        this.createLiveCell(2,4);
+        this.createLiveCell(2,5);
+        this.createLiveCell(2,6);
+        this.createLiveCell(7,4);
+        this.createLiveCell(7,5);
+        this.createLiveCell(7,6);
+
+
+        this.grid[9][4].live = 1;
+        this.grid[9][5].live = 1;
+        this.grid[9][6].live = 1;
+        this.grid[14][4].live = 1;
+        this.grid[14][5].live = 1;
+        this.grid[14][6].live = 1;
+        this.grid[4][7].live = 1;
+        this.grid[5][7].live = 1;
+        this.grid[6][7].live = 1;
+        this.grid[10][7].live = 1;
+        this.grid[11][7].live = 1;
+        this.grid[12][7].live = 1;
+
+        this.grid[4][9].live = 1;
+        this.grid[5][9].live = 1;
+        this.grid[6][9].live = 1;
+        this.grid[10][9].live = 1;
+        this.grid[11][9].live = 1;
+        this.grid[12][9].live = 1;
+        this.grid[2][10].live = 1;
+        this.grid[2][11].live = 1;
+        this.grid[2][12].live = 1;
+        this.grid[7][10].live = 1;
+        this.grid[7][11].live = 1;
+        this.grid[7][12].live = 1;
+        this.grid[9][10].live = 1;
+        this.grid[9][11].live = 1;
+        this.grid[9][12].live = 1;
+        this.grid[14][10].live = 1;
+        this.grid[14][11].live = 1;
+        this.grid[14][12].live = 1;
+        this.grid[4][14].live = 1;
+        this.grid[5][14].live = 1;
+        this.grid[6][14].live = 1;
+        this.grid[10][14].live = 1;
+        this.grid[11][14].live = 1;
+        this.grid[12][14].live = 1;
+
+        this.updateCanvas();
+    }
+
+Grid.prototype.gun = function(){
+        // gun pattern
+        this.grid[1][5].live = 1;
+        this.grid[1][6].live = 1;
+        this.grid[2][5].live = 1;
+        this.grid[2][6].live = 1;
+        this.grid[11][5].live = 1;
+        this.grid[11][6].live = 1;
+        this.grid[11][7].live = 1;
+        this.grid[12][4].live = 1;
+        this.grid[12][8].live = 1;
+        this.grid[13][3].live = 1;
+        this.grid[13][9].live = 1;
+        this.grid[14][3].live = 1;
+        this.grid[14][9].live = 1;
+        this.grid[15][6].live = 1;
+        this.grid[16][4].live = 1;
+        this.grid[16][8].live = 1;
+        this.grid[17][5].live = 1;
+        this.grid[17][6].live = 1;
+        this.grid[17][7].live = 1;
+        this.grid[18][6].live = 1;
+        this.grid[21][3].live = 1;
+        this.grid[21][4].live = 1;
+        this.grid[21][5].live = 1;
+        this.grid[22][3].live = 1;
+        this.grid[22][4].live = 1;
+        this.grid[22][5].live = 1;
+        this.grid[23][2].live = 1;
+        this.grid[23][6].live = 1;
+        this.grid[25][1].live = 1;
+        this.grid[25][2].live = 1;
+        this.grid[25][6].live = 1;
+        this.grid[25][7].live = 1;
+        this.grid[35][3].live = 1;
+        this.grid[35][4].live = 1;
+        this.grid[36][3].live = 1;
+        this.grid[36][4].live = 1;
+
+        this.updateCanvas();
+    }
+
+Grid.prototype.octagon2 = function(){
+        // pulsar pattern
+        this.grid[9][2].live = 1;
+        this.grid[10][2].live = 1;
+        this.grid[8][3].live = 1;
+        this.grid[11][3].live = 1;
+        this.grid[7][4].live = 1;
+        this.grid[12][4].live = 1;
+        this.grid[6][5].live = 1;
+        this.grid[13][5].live = 1;
+        this.grid[6][6].live = 1;
+        this.grid[13][6].live = 1;
+        this.grid[7][7].live = 1;
+        this.grid[12][7].live = 1;
+        this.grid[8][8].live = 1;
+        this.grid[11][8].live = 1;
+        this.grid[9][9].live = 1;
+        this.grid[10][9].live = 1;
+        
+        this.updateCanvas();
+    }
+
+    Grid.prototype.getAllNeighbors = function(){
+        var g = this;
+
+        // calculates neighbors for cell x, y
+        var f = function(g, x, y) {
+            var leftBound = Math.max(x - 1, 0);
+            var rightBound = Math.min(x + 1, g.size - 1);
+            var topBound = Math.max(y - 1, 0);
+            var bottomBound = Math.min(y + 1, g.size - 1);
+
+        var cell = g.grid[x][y];
+
+        var liveNeighbors = 0;
+
+        if (cell.live == 1){
+            liveNeighbors--;
+        }
+ 
+        for (var i = leftBound; i <= rightBound; i++){
+            for (var j = topBound; j <= bottomBound; j++){
+                if (g.grid[i][j].live == 1){
+                    liveNeighbors++
+                }
+            }
+        }
+        cell.neighbors = liveNeighbors;
+    }
+        this.visitAllCells(g, f);
+    }
+
+    Grid.prototype.visitAllCells = function(g, f){
+        for (var i = 0; i < this.size; i++){
+            for (var j = 0; j < this.size; j++){
+                f(g, i,j);
+            }
+        }
+    }
+    Grid.prototype.getNeighbors = function(x, y) {
+        var leftBound = Math.max(x - 1, 0);
+        var rightBound = Math.min(x + 1, this.size - 1);
+        var topBound = Math.max(y - 1, 0);
+        var bottomBound = Math.min(y + 1, this.size - 1);
+
+        var cell = this.grid[x][y];
+
+
+        var liveNeighbors = 0;
+
+        if (cell.live == 1){
+            liveNeighbors--;
+        }
+        
+        for (var i = leftBound; i <= rightBound; i++){
+            for (var j = topBound; j <= bottomBound; j++){
+                if (this.grid[i][j].live == 1){
+                    liveNeighbors++
+                }
+            }
+        }
+        cell.neighbors = liveNeighbors;
+        //return liveNeighbors;
+    }
+
+    Grid.prototype.updateCell = function(x, y){
+        var cell = this.grid[i][j];
+        if (cell.live == 1){
+            if (cell.neighbors == 2 || cell.neighbors == 3){
+                cell.live = 1;
+            }
+            else {
+                cell.live = 0;
+                }
+            }
+            else {
+                if (cell.neighbors == 3){
+                    cell.live = 1;
+                }
+            }
+
+    }
+    Grid.prototype.updateCells = function() {
+
+        /*for (var i = 0; i < this.size; i++){
+            for (var j = 0; j < this.size; j++){
+
+                var cell = this.grid[i][j]
+                //var liveNeighbors = this.getNeighbors(i, j, 20, this.grid);
+
+                if (cell.live == 1){
+                    if (cell.neighbors == 2 || cell.neighbors == 3){
+                        cell.live = 1;
+                    }
+                    else {
+                        cell.live = 0;
+                    }
+                }
+                else {
+                    if (cell.neighbors == 3){
+                        cell.live = 1;
+                    }
+                }
+            }
+        }*/
+
+        var g = this;
+
+        // calculates neighbors for cell x, y
+        var f = function(g, x, y) {
+            var cell = g.grid[x][y];
+            if (cell.live == 1){
+                if (cell.neighbors == 2 || cell.neighbors == 3){
+                    cell.live = 1;
+                }
+                else {
+                    cell.live = 0;
+                }
+            }
+            else {
+                if (cell.neighbors == 3){
+                    cell.live = 1;
+                }
+            }
+
+    }
+        this.visitAllCells(g, f);
+        this.updateCanvas();
+    }
+
+    Grid.prototype.updateCanvas = function() {
+        for (var i = 0; i < this.size; i++){
+            //var str = ""
+            for (var j = 0; j < this.size; j++){
+                //str += this.grid[i][j] + " ";
+                var cell = this.grid[i][j];
+                if (cell.live == 1){
+                this.canvas.fill('black', i, j);
+            }
+            else {
+                this.canvas.fill('white', i, j);
+            }
+            }
+            //console.log(str);
+        }
+        //console.log("");
+        this.canvas.drawGrid();
+    }
+
+}
+
+function create2dArray(x, y) {
+        var arr = grid = new Array(x);
+
+        for (var i = 0; i < x; i++){
+            arr[i] = new Array(y);
+        }
+
+        for (var i = 0; i < x; i++){
+            for (var j = 0; j < y; j++){
+                arr[i][j] = 0;
+            }
+        }
+
+        return arr;
+}
+function Canvas(id, size) {
+    this.id = id;
+    this.size = size;
+    this.ctx = null;
+    this.cellWidth = null;
+    this.cellHeight = null;
+
+    Canvas.prototype.createCanvas = function(){
+        var canvas = document.getElementById(this.id);
+        this.ctx = canvas.getContext('2d');
+
+        this.cellWidth = canvas.width / this.size;
+        this.cellHeight = canvas.height / this.size;
+
+    }
+    Canvas.prototype.fill = function(color, x, y){
+        this.ctx.fillStyle = color;
+        this.ctx.fillRect(x * this.cellWidth, y * this.cellHeight, this.cellWidth, this.cellHeight);
+    }
+
+    Canvas.prototype.drawGrid = function(){
+            var iWidth = cnv.width;
+            var iHeight = cnv.height;
+
+            this.ctx.strokeStyle = 'black';
+            this.ctx.strokeWidth = 1;
+
+            this.ctx.beginPath();
+
+            var iCount = null;
+            var i = null;
+            var x = null;
+            var y = null;
+
+            for (i = 1; i <= this.size; i++) {
+                x = (i * this.cellWidth);
+                this.ctx.moveTo(x, 0);
+                this.ctx.lineTo(x, cnv.height);
+                this.ctx.stroke();
+            }
+
+            for (i = 1; i <= this.size; i++) {
+                y = (i * this.cellHeight);
+                this.ctx.moveTo(0, y);
+                this.ctx.lineTo(cnv.width, y);
+                this.ctx.stroke();
+            }
+
+            this.ctx.closePath();
+
+            return;
+    }
+}
+
+var canvas = new Canvas('cnv', 40);
+canvas.createCanvas();
+var g = new Grid(40, canvas);
+g.initializeGrid()
+g.gun()
+g.startGame()
+    </script>
+</body>
+</html>

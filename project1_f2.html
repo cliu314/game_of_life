@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Game of Life</title>
+    <script src = "grid.js" type = "text/javascript"></script>
+    <script type="text/javascript">
+        window.onload = (
+            function() {
+                var canvas = new Canvas('cnv', 40);
+                //canvas.createCanvas();
+                var g = new Grid(40, canvas);
+                g.initializeGrid();
+                g.randomPattern();
+                g.startGame();
+            })
+    </script>
+</head>
+<body>
+    <canvas id="cnv" width="400" height="400"></canvas>
+</body>
+</html>
