@@ -47,7 +47,92 @@ function Grid(size, canvas){
         this.updateCells();
     }
 
-    // initializes the grid to create the pulsar pattern
+
+    // applies function f to all cells in grid g
+    Grid.prototype.each = function(g, f){
+        for (var i = 0; i < this.size; i++){
+            for (var j = 0; j < this.size; j++){
+                f(g, i,j);
+            }
+        }
+    }
+
+    // calculates the number of live neighbors each cell has and updates the neighbors field of Cell
+    Grid.prototype.getAllNeighbors = function(){
+        var g = this;
+
+        // calculates number of neighbors for cell (x, y)
+        var getNeighbors = function(g, x, y) {
+            var leftBound = Math.max(x - 1, 0);
+            var rightBound = Math.min(x + 1, g.size - 1);
+            var topBound = Math.max(y - 1, 0);
+            var bottomBound = Math.min(y + 1, g.size - 1);
+
+            var cell = g.grid[x][y];
+
+            var liveNeighbors = 0;
+
+            // prevent cell (x,y) from being counted as a neighbor
+            if (cell.live == 1){
+                liveNeighbors--;
+            }
+ 
+            for (var i = leftBound; i <= rightBound; i++){
+                for (var j = topBound; j <= bottomBound; j++){
+                    if (g.grid[i][j].live == 1){
+                        liveNeighbors++
+                    }
+                }
+            }
+            cell.neighbors = liveNeighbors;
+        }
+        this.each(g, getNeighbors);
+    }
+
+    // calculates the next state of the grid based on each cell's neighbors
+    Grid.prototype.updateCells = function() {
+        var g = this;
+
+        // determines whether cell should be live or dead, based on the number of neighbors
+        var updateCell = function(g, x, y) {
+            var cell = g.grid[x][y];
+            if (cell.live == 1){
+                if (cell.neighbors == 2 || cell.neighbors == 3){
+                    cell.live = 1;
+                }
+                else {
+                    cell.live = 0;
+                }
+            }
+            else {
+                if (cell.neighbors == 3){
+                    cell.live = 1;
+                }
+            }
+        }
+        this.each(g, updateCell);
+    }
+
+    // updates the canvas on the html page to show result of each evolution
+    Grid.prototype.updateCanvas = function() {
+        var g = this;
+
+        // fills cell (x,y) on grid g with black or white
+        var fillCell = function(g, x, y) {
+            var cell = g.grid[x][y];
+            if (cell.live == 1){
+                g.canvas.fill('black', x, y);
+            }
+            else {
+                g.canvas.fill('white', x, y);
+            }
+
+        }
+        this.each(g, fillCell);
+        this.canvas.drawGridLines();
+    }
+
+        // initializes the grid to create the pulsar pattern
     Grid.prototype.pulsar = function(){
         this.createLiveCell(4,2);
         this.createLiveCell(5,2);
@@ -73,7 +158,6 @@ function Grid(size, canvas){
         this.createLiveCell(10,7);
         this.createLiveCell(11,7);
         this.createLiveCell(12,7);
-
         this.createLiveCell(4,9);
         this.createLiveCell(5,9);
         this.createLiveCell(6,9);
@@ -166,9 +250,27 @@ function Grid(size, canvas){
         this.updateCanvas();
     }
 
+    // initialize the grid to create the pentadecathlon pattern
+    Grid.prototype.pentadecathlon = function(){
+        this.createLiveCell(11,19);
+        this.createLiveCell(12,19);
+        this.createLiveCell(13,18);
+        this.createLiveCell(13,20);
+        this.createLiveCell(14,19);
+        this.createLiveCell(15,19);
+        this.createLiveCell(16,19);
+        this.createLiveCell(17,19);
+        this.createLiveCell(18,18);        
+        this.createLiveCell(18,20);
+        this.createLiveCell(19,19);
+        this.createLiveCell(20,19);
+
+        this.updateCanvas();
+    }
+
     // initializes grid with a random pattern
     Grid.prototype.randomPattern = function(){
-        var num = Math.floor(Math.random()*3) + 1;
+        var num = Math.floor(Math.random()*4) + 1;
         if (num == 1){
             this.pulsar();
         }
@@ -178,92 +280,10 @@ function Grid(size, canvas){
         if (num == 3){
             this.gun();
         }
-    }
-
-    // applies function f to all cells in grid g
-    Grid.prototype.each = function(g, f){
-        for (var i = 0; i < this.size; i++){
-            for (var j = 0; j < this.size; j++){
-                f(g, i,j);
-            }
+        if (num == 4){
+            this.pentadecathlon();
         }
     }
-
-    // calculates the number of live neighbors each cell has and updates the neighbors field of Cell
-    Grid.prototype.getAllNeighbors = function(){
-        var g = this;
-
-        // calculates number of neighbors for cell (x, y)
-        var getNeighbors = function(g, x, y) {
-            var leftBound = Math.max(x - 1, 0);
-            var rightBound = Math.min(x + 1, g.size - 1);
-            var topBound = Math.max(y - 1, 0);
-            var bottomBound = Math.min(y + 1, g.size - 1);
-
-            var cell = g.grid[x][y];
-
-            var liveNeighbors = 0;
-
-            // prevent cell (x,y) from being counted as a neighbor
-            if (cell.live == 1){
-                liveNeighbors--;
-            }
- 
-            for (var i = leftBound; i <= rightBound; i++){
-                for (var j = topBound; j <= bottomBound; j++){
-                    if (g.grid[i][j].live == 1){
-                        liveNeighbors++
-                    }
-                }
-            }
-            cell.neighbors = liveNeighbors;
-        }
-        this.each(g, getNeighbors);
-    }
-
-    // calculates the next state of the grid based on each cell's neighbors
-    Grid.prototype.updateCells = function() {
-        var g = this;
-
-        // determines whether cell should be live or dead, based on the number of neighbors
-        var updateCell = function(g, x, y) {
-            var cell = g.grid[x][y];
-            if (cell.live == 1){
-                if (cell.neighbors == 2 || cell.neighbors == 3){
-                    cell.live = 1;
-                }
-                else {
-                    cell.live = 0;
-                }
-            }
-            else {
-                if (cell.neighbors == 3){
-                    cell.live = 1;
-                }
-            }
-        }
-        this.each(g, updateCell);
-    }
-
-    // updates the canvas on the html page to show result of each evolution
-    Grid.prototype.updateCanvas = function() {
-        var g = this;
-
-        // fills cell (x,y) on grid g with black or white
-        var fillCell = function(g, x, y) {
-            var cell = g.grid[x][y];
-            if (cell.live == 1){
-                g.canvas.fill('black', x, y);
-            }
-            else {
-                g.canvas.fill('white', x, y);
-            }
-
-        }
-        this.each(g, fillCell);
-        this.canvas.drawGridLines();
-    }
-
 }
 
 // Canvas class that contains all drawing functions needed
