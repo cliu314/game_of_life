@@ -132,7 +132,7 @@ function Grid(size, canvas){
         this.canvas.drawGridLines();
     }
 
-        // initializes the grid to create the pulsar pattern
+    // initializes the grid to create the pulsar pattern
     Grid.prototype.pulsar = function(){
         this.createLiveCell(4,2);
         this.createLiveCell(5,2);

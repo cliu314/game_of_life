@@ -1,6 +1,6 @@
 
 // test that the correct boundaries are being calculated when finding neighbors for cells on the left edge of the grid
-test("testing left edge", function() {
+test("testing left edge neighbors", function() {
 	var canvas = new Canvas('cnv', 5);
 	var grid = new Grid(5, canvas);
 	grid.initializeGrid()
@@ -11,14 +11,34 @@ test("testing left edge", function() {
 
 	// find live neighbors for each live cell
 	grid.getAllNeighbors();
+
+	// tests that neighbors are correct
 	var n = grid.grid[0][1].neighbors;
 	equal(n, 2);
 
-	var n = grid.grid[0][0].neighbors;
-	equal(n, 1);
+	var n2 = grid.grid[0][0].neighbors;
+	equal(n2, 1);
 
-	var n = grid.grid[0][2].neighbors;
-	equal(n, 1);
+	var n3 = grid.grid[0][2].neighbors;
+	equal(n3, 1);
+
+	var n4 = grid.grid[1][0].neighbors;
+	equal(n4, 2);
+
+	var n5 = grid.grid[1][1].neighbors;
+	equal(n5, 3);
+
+	var n6 = grid.grid[1][2].neighbors;
+	equal(n6, 2);
+
+	var n7 = grid.grid[2][0].neighbors;
+	equal(n7, 0);
+
+	var n8 = grid.grid[2][1].neighbors;
+	equal(n8, 0);
+
+	var n9 = grid.grid[2][2].neighbors;
+	equal(n9, 0);
 });
 
 // test that game applies update rules correctly
@@ -56,7 +76,7 @@ test("testing left edge update", function() {
 });
 
 // test that the correct boundaries are being calculated when finding neighbors for cells on the right edge
-test("testing right edge", function() {
+test("testing right edge neighbors", function() {
 	var canvas = new Canvas('cnv', 5);
 	var grid = new Grid(5, canvas);
 	grid.initializeGrid()
@@ -66,8 +86,33 @@ test("testing right edge", function() {
 	grid.createLiveCell(2,0);
 
 	grid.getAllNeighbors();
-	var n = grid.grid[2][1].neighbors;
-	equal(n, 2);
+
+	var n = grid.grid[0][0].neighbors;
+	equal(n, 0);
+
+	var n2 = grid.grid[0][1].neighbors;
+	equal(n2, 0);
+
+	var n3 = grid.grid[0][2].neighbors;
+	equal(n3, 0);
+
+	var n4 = grid.grid[1][0].neighbors;
+	equal(n4, 2);
+
+	var n5 = grid.grid[1][1].neighbors;
+	equal(n5, 3);
+
+	var n6 = grid.grid[1][2].neighbors;
+	equal(n6, 2);
+
+	var n7 = grid.grid[2][0].neighbors;
+	equal(n7, 1);
+
+	var n8 = grid.grid[2][1].neighbors;
+	equal(n8, 2);
+
+	var n9 = grid.grid[2][2].neighbors;
+	equal(n9, 1);
 });
 
 test("testing right edge update", function() {
@@ -103,7 +148,7 @@ test("testing right edge update", function() {
 });
 
 // test that the correct boundaries are being calculated when finding neighbors for cells on the top edge
-test("testing top edge", function() {
+test("testing top edge neighbors", function() {
 	var canvas = new Canvas('cnv', 5);
 	var grid = new Grid(5, canvas);
 	grid.initializeGrid()
@@ -112,11 +157,33 @@ test("testing top edge", function() {
 	grid.createLiveCell(2,0);
 
 	grid.getAllNeighbors();
-	var n = grid.grid[2][0].neighbors;
+
+	var n = grid.grid[0][0].neighbors;
 	equal(n, 1);
-	grid.getAllNeighbors();
-	var n = grid.grid[1][2].neighbors;
-	equal(n, 0);
+
+	var n2 = grid.grid[0][1].neighbors;
+	equal(n2, 2);
+
+	var n3 = grid.grid[0][2].neighbors;
+	equal(n3, 0);
+
+	var n4 = grid.grid[1][0].neighbors;
+	equal(n4, 2);
+
+	var n5 = grid.grid[1][1].neighbors;
+	equal(n5, 3);
+
+	var n6 = grid.grid[1][2].neighbors;
+	equal(n6, 0);
+
+	var n7 = grid.grid[2][0].neighbors;
+	equal(n7, 1);
+
+	var n8 = grid.grid[2][1].neighbors;
+	equal(n8, 2);
+
+	var n9 = grid.grid[2][2].neighbors;
+	equal(n9, 0);
 });
 
 test("testing top edge update", function() {
@@ -149,7 +216,7 @@ test("testing top edge update", function() {
 });
 
 // test that the correct boundaries are being calculated when finding neighbors for cells on the bottom edge
-test("testing bottom edge", function() {
+test("testing bottom edge neighbors", function() {
 	var canvas = new Canvas('cnv', 5);
 	var grid = new Grid(5, canvas);
 	grid.initializeGrid()
@@ -158,8 +225,32 @@ test("testing bottom edge", function() {
 	grid.createLiveCell(2,2);
 
 	grid.getAllNeighbors();
-	var n = grid.grid[1][2].neighbors;
-	equal(n, 2);
+	var n = grid.grid[0][0].neighbors;
+	equal(n, 0);
+
+	var n2 = grid.grid[0][1].neighbors;
+	equal(n2, 2);
+
+	var n3 = grid.grid[0][2].neighbors;
+	equal(n3, 1);
+
+	var n4 = grid.grid[1][0].neighbors;
+	equal(n4, 0);
+
+	var n5 = grid.grid[1][1].neighbors;
+	equal(n5, 3);
+
+	var n6 = grid.grid[1][2].neighbors;
+	equal(n6, 2);
+
+	var n7 = grid.grid[2][0].neighbors;
+	equal(n7, 0);
+
+	var n8 = grid.grid[2][1].neighbors;
+	equal(n8, 2);
+
+	var n9 = grid.grid[2][2].neighbors;
+	equal(n9, 1);
 });
 
 test("testing bottom edge update", function() {
