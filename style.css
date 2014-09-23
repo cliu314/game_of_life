@@ -1,0 +1,30 @@
+body {
+    font-family: sans-serif;
+}
+#wrapper {
+    position: relative;
+    top: 50px;
+    left:100px;
+}
+
+#maingrid {
+    margin: 10px;
+}
+
+.row {
+    margin:0;
+    height:12px;
+}
+
+.cell {
+    width: 11px;
+    height: 12px;
+    background: white;
+    border: 1px solid black;
+    display: inline-block;
+    margin: 0;
+}
+
+.live {
+    background:#282828;
+}

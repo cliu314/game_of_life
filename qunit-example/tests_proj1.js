@@ -1,9 +1,7 @@
 
 // test that the correct boundaries are being calculated when finding neighbors for cells on the left edge of the grid
 test("testing left edge neighbors", function() {
-	var canvas = new Canvas('cnv', 5);
-	var grid = new Grid(5, canvas);
-	grid.initializeGrid()
+	var grid = new Grid(3);
 	grid.createLiveCell(0,1);
 	grid.createLiveCell(0,2);
 	grid.createLiveCell(0,0);
@@ -43,9 +41,7 @@ test("testing left edge neighbors", function() {
 
 // test that game applies update rules correctly
 test("testing left edge update", function() {
-	var canvas = new Canvas('cnv', 3);
-	var grid = new Grid(3, canvas);
-	grid.initializeGrid()
+	var grid = new Grid(3);
 	grid.createLiveCell(0,1);
 	grid.createLiveCell(0,2);
 	grid.createLiveCell(0,0);
@@ -77,9 +73,7 @@ test("testing left edge update", function() {
 
 // test that the correct boundaries are being calculated when finding neighbors for cells on the right edge
 test("testing right edge neighbors", function() {
-	var canvas = new Canvas('cnv', 5);
-	var grid = new Grid(5, canvas);
-	grid.initializeGrid()
+	var grid = new Grid(3);
 
 	grid.createLiveCell(2,1);
 	grid.createLiveCell(2,2);
@@ -116,9 +110,7 @@ test("testing right edge neighbors", function() {
 });
 
 test("testing right edge update", function() {
-	var canvas = new Canvas('cnv', 3);
-	var grid = new Grid(3, canvas);
-	grid.initializeGrid()
+	var grid = new Grid(3);
 
 	grid.createLiveCell(2,1);
 	grid.createLiveCell(2,2);
@@ -149,9 +141,7 @@ test("testing right edge update", function() {
 
 // test that the correct boundaries are being calculated when finding neighbors for cells on the top edge
 test("testing top edge neighbors", function() {
-	var canvas = new Canvas('cnv', 5);
-	var grid = new Grid(5, canvas);
-	grid.initializeGrid()
+	var grid = new Grid(5);
 	grid.createLiveCell(0,0);
 	grid.createLiveCell(1,0);
 	grid.createLiveCell(2,0);
@@ -187,9 +177,7 @@ test("testing top edge neighbors", function() {
 });
 
 test("testing top edge update", function() {
-	var canvas = new Canvas('cnv', 3);
-	var grid = new Grid(3, canvas);
-	grid.initializeGrid()
+	var grid = new Grid(3);
 	grid.createLiveCell(0,0);
 	grid.createLiveCell(1,0);
 	grid.createLiveCell(2,0);
@@ -217,9 +205,8 @@ test("testing top edge update", function() {
 
 // test that the correct boundaries are being calculated when finding neighbors for cells on the bottom edge
 test("testing bottom edge neighbors", function() {
-	var canvas = new Canvas('cnv', 5);
-	var grid = new Grid(5, canvas);
-	grid.initializeGrid()
+	var grid = new Grid(5);
+
 	grid.createLiveCell(0,2);
 	grid.createLiveCell(1,2);
 	grid.createLiveCell(2,2);
@@ -254,9 +241,8 @@ test("testing bottom edge neighbors", function() {
 });
 
 test("testing bottom edge update", function() {
-	var canvas = new Canvas('cnv', 3);
-	var grid = new Grid(3, canvas);
-	grid.initializeGrid()
+	var grid = new Grid(3);
+
 	grid.createLiveCell(0,2);
 	grid.createLiveCell(1,2);
 	grid.createLiveCell(2,2);
@@ -285,9 +271,7 @@ test("testing bottom edge update", function() {
 
 // test behavior of a simple oscillator
 test("testing blinker", function() {
-	var canvas = new Canvas('cnv', 3);
-	var grid = new Grid(3, canvas);
-	grid.initializeGrid()
+	var grid = new Grid(3);
 	grid.createLiveCell(0,1);
 	grid.createLiveCell(1,1);
 	grid.createLiveCell(2,1);
