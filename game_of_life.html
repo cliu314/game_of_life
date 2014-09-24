@@ -7,27 +7,32 @@
     <script src="game_of_life.js"></script>
     <script type = "text/javascript">
         $(document).ready(function(){
+            // create grid object
             var g = new Grid(40);
-            createGrid(g);
+            // display grid using divs
+            createDisplay(g);
         })
     </script>
 </head>
 <body>
-    <h2>The Game of Life</h2>
-    <div id = "wrapper">
-    <button id="start">Start</button>
-    <button id="stop" disabled = "disabled">Stop</button>
-    <button id="step">Step</button>
-    <button id="clear">Clear</button>
-    Time Between Steps: <input type = "range" id= "speed" min = "50" max = "2000" step="50" value="500"> <span id="speed_display">500</span> <br />
-    <div id="maingrid"></div>
 
-    Patterns: <br />
-    <button id="gun">Gosper Gun</button>
-    <button id="pulsar">Pulsar</button>
-    <button id="octagon2">Octagon 2</button>
-    <button id="pentadecathlon">Pentadecathlon</button>
-    <button id="random">Random</button>
-</div>
+    <div id = "wrapper">
+        <h2>The Game of Life</h2>
+        Choose a pattern below or create your own patterns by clicking or dragging on the cells! You can click on a live cell again to clear it.<br/><br/>
+        <button id="start">Start</button>
+        <button id="stop" disabled = "disabled">Stop</button>
+        <button id="step">Step</button>
+        <button id="clear">Clear</button>
+        Time Between Steps: <input type = "range" id= "speed" min = "50" max = "2000" step="50" value="500"> <span id="speed_display">500</span> <br />
+
+        <div id="maingrid"></div>
+
+        <h4>Patterns: </h4>
+        <button id="gun">Gosper Gun</button>
+        <button id="pulsar">Pulsar</button>
+        <button id="octagon2">Octagon 2</button>
+        <button id="pentadecathlon">Pentadecathlon</button>
+        <button id="random">Random</button>
+    </div>
 </body>
 </html>

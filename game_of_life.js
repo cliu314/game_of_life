@@ -8,10 +8,10 @@ function Cell(x, y){
 
 // class to represent the grid. A grid is composed of cells
 function Grid(size){
-    this.size = size;
     var that = this;
+    this.size = size;
     // initializes a grid of dead cells with dimensions size
-    this.grid = new Array(size);
+    that.grid = new Array(size);
 
     for (var i = 0; i < size; i++){
         this.grid[i] = new Array(size);
@@ -28,10 +28,12 @@ function Grid(size){
         this.grid[x][y].live = 1;
     }
 
+    // creates a dead cell at position (x,y) in the grid
     Grid.prototype.createDeadCell = function(x, y){
         this.grid[x][y].live = 0;
     }  
 
+    // perform the next step of the simulation
     Grid.prototype.evolve = function(){
         this.getAllNeighbors();
         updateCells();
@@ -99,20 +101,7 @@ function Grid(size){
         each(updateCell);
     }
 
-
-    this.getCellFromCoordinates = function(x, y){
-        return $("#maingrid").children().eq(x).children().eq(y);
-    }
-
-    Grid.prototype.clearGrid = function(){
-        // makes cell (x,y) dead
-        var clear = function(x, y) {
-            that.grid[x][y].live = 0;
-        }
-        each(clear);
-        updateCanvas();
-    }
-    // updates the canvas on the html page to show result of each evolution
+   // updates the canvas on the html page to show result of each evolution
     var updateCanvas = function() {
         // fills cell (x,y) on grid g with black or white
         var fillCell = function(x, y) {
@@ -125,6 +114,21 @@ function Grid(size){
             }
         }
         each(fillCell);
+    }
+
+    // get the div corresponding to cell (x,y)
+    Grid.prototype.getCellFromCoordinates = function(x, y){
+        return $("#maingrid").children().eq(x).children().eq(y);
+    }
+
+    // make all cells dead
+    Grid.prototype.clearGrid = function(){
+        // makes cell (x,y) dead
+        var clear = function(x, y) {
+            that.grid[x][y].live = 0;
+        }
+        each(clear);
+        updateCanvas();
     }
 
     // initializes the grid to create the pulsar pattern
@@ -264,10 +268,15 @@ function Grid(size){
     }
 }
 
-function createGrid(grid){
+function createDisplay(grid){
+    // time between steps in milliseconds
     var interval;
+    // keeps track of whether the mouse is being dragged currently
+    var dragging = false;
 
     var maindiv = $("#maingrid");
+
+    // create a grid of rows of divs to represent cells
     for (var i = 0; i < grid.size; i++){
         var row = document.createElement("div");
         row.className = "row";
@@ -275,13 +284,12 @@ function createGrid(grid){
 
         for (var j = 0; j < grid.size; j++){
             var cell = document.createElement("div");
-            var id = i + "_" + j;
-            cell.id = id;
             cell.className = "cell"
             row.appendChild(cell);
         }
     }
 
+    // when a cell is clicked, toggle it's state (live/dead)
     $(".cell").on("click", function(){
         var row = $(this).index();
         var col = $(this).parent().index();
@@ -296,29 +304,61 @@ function createGrid(grid){
         }
     });
 
+    // dragging starts when the mouse is pressed down
+    $(".cell").on("mousedown", function(){
+        dragging = true;
+    })
+
+    // dragging stops when the mouse is finished clicking
+    $(".cell").on("mouseup", function(){
+        dragging = false;
+    })
+
+    // dragging should be turned off if the mouse leaves the grid
+    $("#maingrid").on("mouseleave", function(){
+        dragging = false;
+    })
+
+    // if mouse is being dragged and it enters a cell, make the cell live
+    $(".cell").on("mouseenter", function(){
+        if (dragging){
+            var row = $(this).index();
+            var col = $(this).parent().index();
+
+            grid.createLiveCell(row, col);
+            $(this).addClass("live");   
+        }
+    });
+
+    // when the start button is clicked, start the simulation
     $("#start").on("click", function(){
         var speed = $("#speed").val();
         interval = setInterval(function() {
             grid.evolve();
         }, speed)
 
+        // disable start button and speed control, enable stop button
         document.getElementById("stop").disabled = false;
         document.getElementById("start").disabled = true;
         document.getElementById("speed").disabled = true;
     });
 
+    // when the stop button is clicked, stop the simulation
     $("#stop").on("click", function(){
         clearInterval(interval);
 
+        // disable stop button, enable start button and speed control
         document.getElementById("stop").disabled = true;
         document.getElementById("start").disabled = false;
         document.getElementById("speed").disabled = false;
     });
 
+    // when the step button is clicked, do one step of the simulation
     $("#step").on("click", function(){
         grid.evolve();
     });
 
+    // when the clear button is clicked, make every cell dead
     $("#clear").on("click", function(){
         grid.clearGrid();
 
@@ -334,6 +374,8 @@ function createGrid(grid){
         document.getElementById("speed_display").innerHTML = speed;
     });
 
+
+    // PATTERNS
     $("#pulsar").on("click", function(){
         grid.pulsar();
     });
@@ -352,6 +394,7 @@ function createGrid(grid){
         grid.pentadecathlon();
     });
 
+    // create a random pattern of live cells
     $("#random").on("click", function(){
         for (var i = 0; i < grid.size; i++){
             for (var j = 0; j < grid.size; j++){

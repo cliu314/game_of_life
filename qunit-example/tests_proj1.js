@@ -306,3 +306,21 @@ test("testing blinker", function() {
 	equal(grid.grid[2][1].live, 0);
 	equal(grid.grid[2][2].live, 0);
 });
+
+// test clearGrid function
+test("testing clear", function() {
+	var grid = new Grid(3);
+	grid.createLiveCell(0,1);
+	grid.createLiveCell(1,1);
+	grid.createLiveCell(2,1);
+	grid.clearGrid();
+	equal(grid.grid[0][0].live, 0);
+	equal(grid.grid[0][1].live, 0);
+	equal(grid.grid[0][2].live, 0);
+	equal(grid.grid[1][0].live, 0);
+	equal(grid.grid[1][1].live, 0);
+	equal(grid.grid[1][2].live, 0);
+	equal(grid.grid[2][0].live, 0);
+	equal(grid.grid[2][1].live, 0);
+	equal(grid.grid[2][2].live, 0);
+});

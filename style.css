@@ -3,12 +3,16 @@ body {
 }
 #wrapper {
     position: relative;
-    top: 50px;
+    top: 15px;
     left:100px;
+    width: 550px;
 }
 
 #maingrid {
-    margin: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    height: 480px;
+    width: 520px;
 }
 
 .row {
@@ -26,5 +30,5 @@ body {
 }
 
 .live {
-    background:#282828;
+    background:#2B547E;
 }
